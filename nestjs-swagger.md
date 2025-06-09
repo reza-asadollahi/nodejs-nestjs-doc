@@ -117,3 +117,51 @@ async protectedEndpoint() {
   return { message: 'You accessed a protected endpoint!' };
 }
 ```
+
+## 7. Request Body DTO Example (@ApiProperty)
+Defines the expected request body properties:
+``` typescript
+export class BriefElementDto {
+  @ApiProperty({ example: 'header', description: 'Tag name of the element' })
+  tagName: string;
+
+  @ApiProperty({ example: '12345', description: 'Unique element ID' })
+  elementId: string;
+}
+```
+
+
+## 8. Request Body Documentation (@ApiBody)
+
+Specifies that the request body is required and links to a DTO (BriefElementDto).
+Automatically documents the expected body structure in Swagger.
+
+``` typescript
+@ApiOperation({ summary: 'Create a new brief element' })
+@ApiBody({
+  type: BriefElementDto,
+  description: 'Payload to create a new brief element',
+  required: true,
+})
+@Post('brief')
+async createBriefElement(@Body() body: BriefElementDto) {
+  return this.elementsService.createBriefElement(body);
+}
+```
+
+### Custom Example for Request Body (examples in @ApiBody)
+Gives a clear example of expected request format in Swagger UI.
+You can provide multiple examples directly in @ApiBody:
+``` typescript
+@ApiBody({
+  description: 'Create a new brief element',
+  required: true,
+  schema: {
+    example: {
+      tagName: 'header',
+      elementId: '12345',
+    },
+  },
+})
+```
+
